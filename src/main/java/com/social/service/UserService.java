@@ -6,13 +6,17 @@ import com.social.model.User;
 
 public interface UserService {
 
-	User createNewUser(User user, Integer userId);
+	User registerUser(User user);
+	User findUserById(Integer userId) throws Exception;
+	User findUserByEmail(Integer userId) throws Exception;
+	User followUser(Integer userId1 , Integer userId2) throws Exception;
+	User updateUser(User user) throws Exception;
+	List<User> searchUser(String query);
+	
 
+
+	
 	User deleteUser(Integer userId);
-
-	List<User> findAllUser();
-
-	User findUserById(Integer userId);
 
 	User savedUser(Integer userId);
 }

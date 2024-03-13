@@ -5,17 +5,21 @@ import { useState } from 'react';
 import React from 'react';
 import * as Yup from 'yup';
 import { Button } from '@mui/material';
+import { loginUserAction } from '../../Redux/Auth/auth.action';
+import { useDispatch } from 'react-redux'
 
 const initialValues = { email: "", password: "" }
 const validationSchema = {
     email: Yup.string().email("Invalid email").required("Email is Required"),
     password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is Required")
 }
-const Login = () => {
+export const Login = () => {
     const [formValue, setFormValue] = useState(initialValues);
+    const dispatch = useDispatch() 
+
     const handleSubmit = (formValue) => {
-        
         console.log("handle Submit",formValue);
+        dispatch(loginUserAction({data:formValue}))
     }
     return (
         <>
@@ -53,6 +57,8 @@ const Login = () => {
                             type="submit"
                             variant="contained"
                             color="primary">Login</Button>
+
+                            
                     </div>
 
                 </Form>
@@ -61,4 +67,4 @@ const Login = () => {
     )
 }
 
-export default Login
+// export default Login;

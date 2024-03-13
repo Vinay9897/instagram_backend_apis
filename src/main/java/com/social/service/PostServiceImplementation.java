@@ -19,11 +19,14 @@ public class PostServiceImplementation implements PostService{
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	UserService userService;
 
 	
 	@Override
-	public Post createNewPost(Post post, Integer userId) {
-		User user =  userRepository.findById(userId).orElse(null);
+	public Post createNewPost(Post post, Integer userId) throws Exception {
+		User user =  userService.findUserById(userId);
 		Post newPost = new Post();
 		newPost.setCaption(post.getCaption());
 		newPost.setImage(post.getImage());
@@ -31,7 +34,7 @@ public class PostServiceImplementation implements PostService{
 		newPost.setVideo(post.getVideo());
 		newPost.setUser(user);
 		
-		return null;
+		return newPost;
 	}
 
 	@Override
@@ -72,6 +75,18 @@ public class PostServiceImplementation implements PostService{
 
 	@Override
 	public Post savedPost(Integer postId, Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Post> findPostByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Post likePost(Integer postId, Integer userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

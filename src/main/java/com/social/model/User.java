@@ -3,7 +3,13 @@ package com.social.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
 public class User {
+	@Id
 	private Integer id;
 	private String firstName;
 	private String lastName;
@@ -123,5 +129,6 @@ public class User {
 				+ ", password=" + password + ", gender=" + gender + ", follewers=" + follewers + ", follwings="
 				+ follwings + "]";
 	}
+	
 	
 }

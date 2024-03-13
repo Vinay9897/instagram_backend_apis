@@ -4,6 +4,8 @@ import { useState } from 'react';
 import React from 'react';
 import * as Yup from 'yup';
 import { Button } from '@mui/material';
+import { loginUserAction, registerUserAction } from '../../Redux/Auth/auth.action';
+import { useDispatch } from 'react-redux';
 
 const initialValues = { firstName: "", lastName: "", email: "", password: "", gender: "" }
 const validationSchema = {
@@ -12,13 +14,16 @@ const validationSchema = {
 }
 const Register = () => {
     const [gender, setGender] = useState('');
+    const dispatch = useDispatch()
     const handleSubmit = (values) => {
         values.gender = gender
         console.log("handle Submit",values); 
+        dispatch(registerUserAction({data:values}))
     };
 
     const handleChange = (event) => {
         setGender(event.target.value);
+        
     };
     return (
         <>
