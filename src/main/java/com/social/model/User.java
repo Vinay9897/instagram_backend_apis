@@ -1,15 +1,23 @@
 package com.social.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.ManyToMany;
+
 
 @Entity
 public class User {
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	private String firstName;
 	private String lastName;
@@ -17,25 +25,21 @@ public class User {
 	private String password;
 	private String gender;
 	
-	private List<Integer> follewers = new ArrayList<>();
 	
-	private List<Integer> follwings = new ArrayList<>();
+	private Set<Integer> followers = new HashSet<>();
+	
+	
+	private Set<Integer> followings = new HashSet<>();
+	
+	@JsonIgnore
+	@ManyToMany
+	private List<Post> savedPost = new ArrayList<>();
 	
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
-
-	public User(Integer id, String firstName, String lastName, String email, String password) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-	}
-
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -43,6 +47,11 @@ public class User {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+
+	public Set<Integer> getFollowings() {
+		return followings;
 	}
 
 
@@ -89,46 +98,50 @@ public class User {
 	}
 
 
-	public List<Integer> getFollewers() {
-		return follewers;
+	public Set<Integer> getFollowers() {
+		return followers;
 	}
 
 
-	public void setFollewers(List<Integer> follewers) {
-		this.follewers = follewers;
+	public void setFollewers(Set<Integer> follewers) {
+		this.followers = followers;
 	}
 
 
-	public List<Integer> getFollwings() {
-		return follwings;
+	public void setFollowings(Set<Integer> followings) {
+		this.followings = followings;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", gender=" + gender + ", follewers=" + followers + ", follwings="
+				+ followings + "]";
 	}
 
 
-	public void setFollwings(List<Integer> follwings) {
-		this.follwings = follwings;
+	public List<Post> getSavedPost() {
+		return savedPost;
 	}
 
 
-	public User(Integer id, String firstName, String lastName, String email, String password, String gender,
-			List<Integer> follewers, List<Integer> follwings) {
+	public void setSavedPost(List<Post> savedPost) {
+		this.savedPost = savedPost;
+	}
+
+	public User(String firstName,String lastName,String email,String password,String gender,
+			Set<Integer> followers,Set<Integer> followings, List<Post> savedPost) {
 		super();
-		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 		this.gender = gender;
-		this.follewers = follewers;
-		this.follwings = follwings;
-	}
-
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", gender=" + gender + ", follewers=" + follewers + ", follwings="
-				+ follwings + "]";
+		this.followers = followers;
+		this.followings = followings;
+		this.savedPost = savedPost;
 	}
 	
+
 	
 }

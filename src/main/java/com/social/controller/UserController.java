@@ -1,8 +1,6 @@
 package com.social.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,20 +25,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping("/users")
-	public List<User> getUsers() {
-
-		List<User> users = new ArrayList<>();
-
-		User user1 = new User(1, "code", "zosh", "codewithzosh@gmail.com", "12345");
-		User user2 = new User(2, "raam", "arora", "raam@gmail.com", "12345");
-
-		users.add(user1);
-		users.add(user2);
-
-		return users;
-	}
-
 	@GetMapping("/users/{userId}")
 	public User getUserById(@PathVariable("userId") Integer id) throws Exception {
 
@@ -48,8 +32,8 @@ public class UserController {
 		return user;
 	}
 
-	@PostMapping("/users")
-	public User createser(@RequestBody User user) {
+	@PostMapping("/createUsers")
+	public User createUser(@RequestBody User user) {
 
 		User savedUser = userService.registerUser(user);
 
@@ -81,8 +65,22 @@ public class UserController {
 		return userService.followUser(userId1, userId2);
 	}
 	
-	public List<User> searchUser(@RequestParam("query") String query){
+	@GetMapping("/searchUsers/{query}")
+	public List<User> searchUser(@PathVariable String query){
 		List<User> users = userService.searchUser(query);
 		return users;
+	}
+	
+	@GetMapping("/users")
+	public List<User> getAllUsers(){
+		
+		return userRepository.findAll();
+	}
+	
+	@DeleteMapping("/deleteAllUsers")
+	public void deleteAllUsers() {
+		
+		userRepository.deleteAll();
+		return;
 	}
 }

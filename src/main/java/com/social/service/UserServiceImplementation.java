@@ -18,8 +18,6 @@ public class UserServiceImplementation implements UserService {
 	@Override
 	public User deleteUser(Integer userId) {
 		Optional<User> user = userRepository.findById(userId);
-		
-		
 		return user.get();
 	}
 
@@ -34,12 +32,6 @@ public class UserServiceImplementation implements UserService {
 	}
 
 	@Override
-	public User savedUser(Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public User registerUser(User user) {
 		User newUser = new User();
 		newUser.setEmail(user.getEmail());
@@ -47,6 +39,7 @@ public class UserServiceImplementation implements UserService {
 		newUser.setLastName(user.getLastName());
 		newUser.setPassword(user.getPassword());
 		newUser.setId(user.getId());
+		newUser.setGender(user.getGender());
 
 		User savedUser = userRepository.save(newUser);
 		return savedUser;
@@ -71,11 +64,11 @@ public class UserServiceImplementation implements UserService {
 
 	@Override
 	public User followUser(Integer userId1, Integer userId2) throws Exception {
-		User user1 = findUserById(userId2);
+		User user1 = findUserById(userId1);
 		User user2 = findUserById(userId2);
 		
-		user2.getFollewers().add(user1.getId());
-		user1.getFollwings().add(user2.getId());
+		user2.getFollowers().add(user1.getId());
+		user1.getFollowings().add(user2.getId());
 		
 		userRepository.save(user1);
 		userRepository.save(user2);
@@ -111,6 +104,12 @@ public class UserServiceImplementation implements UserService {
 	public List<User> searchUser(String query) {
 		List<User> users = userRepository.searchUser(query);
 		return users;
+	}
+
+	@Override
+	public User savedUser(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

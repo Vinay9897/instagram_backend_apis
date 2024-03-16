@@ -1,18 +1,27 @@
 package com.social.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Post {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO) 
 	private Integer id;
 	
 	private String caption;
@@ -24,7 +33,10 @@ public class Post {
 	@ManyToOne
 	private User user;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	private LocalDateTime  createdAt;
+	
+	private Set<Integer> liked = new HashSet<>();
 
 	public Integer getId() {
 		return id;
@@ -94,6 +106,28 @@ public class Post {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	public Set<Integer> getLiked() {
+		return liked;
+	}
+
+	public void setLiked(Set<Integer> liked) {
+		this.liked = liked;
+	}
+
+	public Post(Integer id, String caption, String image, String video, User user, LocalDateTime createdAt,
+			Set<Integer> liked) {
+		super();
+		this.id = id;
+		this.caption = caption;
+		this.image = image;
+		this.video = video;
+		this.user = user;
+		this.createdAt = createdAt;
+		this.liked = liked;
+	}
+	
+	
 	
 	
 	
