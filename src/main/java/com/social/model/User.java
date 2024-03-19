@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +33,7 @@ public class User {
 	private Set<Integer> followings = new HashSet<>();
 	
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Post> savedPost = new ArrayList<>();
 	
 	public User() {

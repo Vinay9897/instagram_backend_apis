@@ -12,7 +12,10 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 	
 	public User findByEmail(String email);
 	
+	public User findUserById(Integer userId) throws Exception;
+	
 	@Query("select u from User u where u.firstName LIKE %:query% OR u.lastName LIke %:query% OR u.email LIKE %:query")
 	public List<User> searchUser(@Param("query") String query);
+	
 
 }

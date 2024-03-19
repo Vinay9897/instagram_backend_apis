@@ -24,6 +24,7 @@ public class PostServiceImplementation implements PostService {
 
 	@Autowired
 	UserService userService;
+	
 
 	@Override
 	public Post createNewPost(Post post, Integer userId) throws Exception {
@@ -41,11 +42,12 @@ public class PostServiceImplementation implements PostService {
 
 	@Override
 	public String deletePost(Integer postId, Integer userId) throws Exception {
-		Post post = null;
-		post = findPostById(postId);
+		
+		Post post = findPostById(postId);
 
 		User user = userService.findUserById(userId);
-		if (post.getUser().getId().equals(user.getId())) {
+		System.out.println(post.getUser().getId());
+		if (!post.getUser().getId().equals(user.getId())) {
 			throw new Exception("you can't delete another user post");
 		}
 

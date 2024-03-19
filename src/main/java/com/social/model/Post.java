@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,13 +31,16 @@ public class Post {
 	
 	private String video;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	private LocalDateTime  createdAt;
 	
 	private Set<Integer> liked = new HashSet<>();
+	
+	@OneToMany
+	private List<Comment> comment = new ArrayList<>();
 
 	public Integer getId() {
 		return id;
@@ -115,6 +119,14 @@ public class Post {
 		this.liked = liked;
 	}
 
+	public List<Comment> getComment() {
+		return comment;
+	}
+
+	public void setComment(List<Comment> comment) {
+		this.comment = comment;
+	}
+
 	public Post(Integer id, String caption, String image, String video, User user, LocalDateTime createdAt,
 			Set<Integer> liked) {
 		super();
@@ -126,6 +138,21 @@ public class Post {
 		this.createdAt = createdAt;
 		this.liked = liked;
 	}
+
+	public Post(Integer id, String caption, String image, String video, User user, LocalDateTime createdAt,
+			Set<Integer> liked, List<Comment> comment) {
+		super();
+		this.id = id;
+		this.caption = caption;
+		this.image = image;
+		this.video = video;
+		this.user = user;
+		this.createdAt = createdAt;
+		this.liked = liked;
+		this.comment = comment;
+	}
+	
+	
 	
 	
 	

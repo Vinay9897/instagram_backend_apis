@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.social.config.JwtProvider;
 import com.social.model.User;
 import com.social.repositories.UserRepository;
 
@@ -63,22 +64,23 @@ public class UserServiceImplementation implements UserService {
 	}
 
 	@Override
-	public User followUser(Integer userId1, Integer userId2) throws Exception {
-		User user1 = findUserById(userId1);
+	public User followUser(Integer reqUserId, Integer userId2) throws Exception {
+		User reqUser = findUserById(reqUserId);
 		User user2 = findUserById(userId2);
 		
-		user2.getFollowers().add(user1.getId());
-		user1.getFollowings().add(user2.getId());
+		user2.getFollowers().add(reqUser.getId());
+		reqUser.getFollowings().add(user2.getId());
 		
-		userRepository.save(user1);
+		userRepository.save(reqUser);
 		userRepository.save(user2);
 		
-		return user1;
+		return reqUser;
 	}
 
 	@Override
-	public User updateUser(User user) throws Exception {
-		Optional<User> user1 = userRepository.findById(user.getId());
+	public User updateUser(User user, Integer userId) throws Exception {
+		System.out.println("inside update user");
+		Optional<User> user1 = userRepository.findById(userId);
 
 		if (user1.isEmpty()) {
 			throw new Exception("User is Empty");
@@ -95,6 +97,11 @@ public class UserServiceImplementation implements UserService {
 		if (user.getEmail() != null) {
 			oldUser.setEmail(user.getEmail());
 		}
+		
+		if(user.getGender() != null)
+		{
+			oldUser.setGender(user.getGender());  
+		}
 		User updatedUser = userRepository.save(oldUser);
 
 		return updatedUser;
@@ -110,6 +117,14 @@ public class UserServiceImplementation implements UserService {
 	public User savedUser(Integer userId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public User findUserByJwt(String jwt) {
+		
+		String email = JwtProvider.getEmailFromJWTToken(jwt);
+		User user = userRepository.findByEmail(email);
+		return user;
 	}
 
 }
