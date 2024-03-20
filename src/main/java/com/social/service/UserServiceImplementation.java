@@ -79,7 +79,6 @@ public class UserServiceImplementation implements UserService {
 
 	@Override
 	public User updateUser(User user, Integer userId) throws Exception {
-		System.out.println("inside update user");
 		Optional<User> user1 = userRepository.findById(userId);
 
 		if (user1.isEmpty()) {

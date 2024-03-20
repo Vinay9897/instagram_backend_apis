@@ -16,4 +16,6 @@ public interface ChatService {
 	
 	public List<Chat> findUsersChat(Integer userdId);
 	
+	public List<Chat> findAllChat();
+	
 }
