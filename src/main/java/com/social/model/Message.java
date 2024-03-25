@@ -2,6 +2,7 @@ package com.social.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -24,10 +25,12 @@ public class Message {
 	private String image;
 	
 	@ManyToOne
+	@JsonBackReference
 	private User user;
 	
 	@JsonIgnore
 	@ManyToOne
+	@JsonBackReference
 	private Chat chat;
 
 	private LocalDateTime timestamp;

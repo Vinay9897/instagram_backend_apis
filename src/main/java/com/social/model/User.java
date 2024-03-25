@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -13,6 +13,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MapsId;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
@@ -20,6 +24,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
+	
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -32,29 +37,20 @@ public class User {
 	
 	private Set<Integer> followings = new HashSet<>();
 	
-	@JsonIgnore
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Post> savedPost = new ArrayList<>();
 	
-	public User() {
-		// TODO Auto-generated constructor stub
-	}
+	@ManyToMany()
+	private List<Comment> savedComment = new ArrayList<>();
 
-	
 	public Integer getId() {
 		return id;
 	}
 
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-
-	public Set<Integer> getFollowings() {
-		return followings;
-	}
-
 
 	public String getFirstName() {
 		return firstName;
@@ -88,51 +84,50 @@ public class User {
 		this.password = password;
 	}
 
-
 	public String getGender() {
 		return gender;
 	}
-
 
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
-
 	public Set<Integer> getFollowers() {
 		return followers;
 	}
 
-
-	public void setFollewers(Set<Integer> follewers) {
+	public void setFollowers(Set<Integer> followers) {
 		this.followers = followers;
 	}
 
+	public Set<Integer> getFollowings() {
+		return followings;
+	}
 
 	public void setFollowings(Set<Integer> followings) {
 		this.followings = followings;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", gender=" + gender + ", follewers=" + followers + ", follwings="
-				+ followings + "]";
-	}
-
-
 	public List<Post> getSavedPost() {
 		return savedPost;
 	}
-
 
 	public void setSavedPost(List<Post> savedPost) {
 		this.savedPost = savedPost;
 	}
 
-	public User(String firstName,String lastName,String email,String password,String gender,
-			Set<Integer> followers,Set<Integer> followings, List<Post> savedPost) {
+	public List<Comment> getSavedComment() {
+		return savedComment;
+	}
+
+	public void setSavedComment(List<Comment> savedComment) {
+		this.savedComment = savedComment;
+	}
+
+	public User(Integer id, String firstName, String lastName, String email, String password, String gender,
+			Set<Integer> followers, Set<Integer> followings, List<Post> savedPost, List<Comment> savedComment) {
 		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -141,8 +136,14 @@ public class User {
 		this.followers = followers;
 		this.followings = followings;
 		this.savedPost = savedPost;
+		this.savedComment = savedComment;
+	}
+
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	
-
+	
 	
 }

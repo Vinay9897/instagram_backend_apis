@@ -12,4 +12,6 @@ public interface CommentService {
 	public Comment likeComment(Integer commentId, Integer userId) throws Exception;
 	
 	public Comment getComment(Integer commentid) throws Exception;
+	
+	public Comment deleteComment(Integer postId,Integer commentId) throws Exception;
 }

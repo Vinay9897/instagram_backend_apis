@@ -2,13 +2,11 @@ import './App.css';
 import Authentication from './pages/Authentication/Authentication';
 
 
-function App() {
+export function App() {
   return (
-    // <div className="App">
-      // <p>Hello</p>
+    <div className="App">
       <Authentication/>
-    // </div> 
+     </div> 
   );
 }
 
-export default App;

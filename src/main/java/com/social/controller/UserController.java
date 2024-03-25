@@ -3,6 +3,7 @@ package com.social.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.social.repositories.UserRepository;
 import com.social.service.UserService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class UserController {
 
@@ -96,6 +98,7 @@ public class UserController {
 	public User getUserFromTokenHandler(@RequestHeader("Authorization") String jwt)
 	{
 		User user = userService.findUserByJwt(jwt);
+		System.out.println(user);
 		return user;
 	}
 }

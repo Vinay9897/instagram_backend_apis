@@ -29,6 +29,7 @@ public class PostServiceImplementation implements PostService {
 	@Override
 	public Post createNewPost(Post post, Integer userId) throws Exception {
 		User user = userService.findUserById(userId);
+		System.out.println(user.getId());
 		Post newPost = new Post();
 		newPost.setId(post.getId());
 		newPost.setCaption(post.getCaption());
@@ -36,6 +37,7 @@ public class PostServiceImplementation implements PostService {
 		newPost.setCreatedAt(LocalDateTime.now());
 		newPost.setVideo(post.getVideo());
 		newPost.setUser(user);
+		System.out.println("n2"+newPost.getId());
 		postRepository.save(newPost);
 		return newPost;
 	}
@@ -94,10 +96,13 @@ public class PostServiceImplementation implements PostService {
 
 	@Override
 	public Post likePost(Integer postId, Integer userId) throws Exception {
-		Post post = findPostById(postId);
 		User user = userService.findUserById(userId);
-
-		post.getLiked().add(user.getId());
+		Post post = findPostById(postId);
+		if(post.getLiked().contains(user)) {
+			post.getLiked().remove(user);
+		}
+		else
+		post.getLiked().add(user);
 
 		postRepository.save(post);
 

@@ -2,6 +2,8 @@ package com.social.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +24,7 @@ public class Story {
 	private LocalDateTime time;
 	
 	@ManyToOne
+	@JsonBackReference
 	private User user;
 
 	public Integer getId() {

@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,7 @@ public class Chat {
 	private List<User> users = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "chat")  
+	@JsonManagedReference
 	private List<Message> messages = new ArrayList<>();
 	
 	private LocalDateTime timestamp;

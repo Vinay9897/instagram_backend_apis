@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.social.service.PostService;
 import com.social.service.UserService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class PostController {
 
@@ -35,8 +37,9 @@ public class PostController {
 	public ResponseEntity<Post> createPost(@RequestBody Post post,@RequestHeader("Authorization") String jwt ) throws Exception {
 		
 		User user = userService.findUserByJwt(jwt);
+		System.out.println(user);
 		Integer userId = user.getId();
-		
+		System.out.println("userId"+userId);
 		Post createdPost = postService.createNewPost(post, userId);
 		return new ResponseEntity<>(createdPost, HttpStatus.OK);
 	}

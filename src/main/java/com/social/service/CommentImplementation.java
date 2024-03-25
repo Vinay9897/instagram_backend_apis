@@ -21,6 +21,9 @@ public class CommentImplementation implements CommentService {
 	private CommentRepository commentRepository;
 	
 	@Autowired
+	private PostService postService;
+	
+	@Autowired
 	private PostRepository postRepository;
 	
 	@Autowired
@@ -74,6 +77,17 @@ public class CommentImplementation implements CommentService {
 		}
 		
 		return opt;
+	}
+
+	@Override
+	public Comment deleteComment(Integer postId,Integer commentId) throws Exception {
+		Post post = postService.findPostById(postId);
+		
+		if(post == null)
+			throw new Exception("post doesn't exit");
+		Comment comment = commentRepository.findById(commentId).get();
+		commentRepository.delete(comment);
+		return comment;
 	}
 
 }

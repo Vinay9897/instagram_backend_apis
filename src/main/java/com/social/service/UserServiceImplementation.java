@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.social.config.JwtProvider;
+import com.social.exceptions.UserException;
 import com.social.model.User;
 import com.social.repositories.UserRepository;
 
@@ -23,11 +24,10 @@ public class UserServiceImplementation implements UserService {
 	}
 
 	@Override
-	public User findUserById(Integer userId) throws Exception {
+	public User findUserById(Integer userId) throws UserException {
 		Optional<User> user = userRepository.findById(userId);
-		if(user == null)
-		{
-			throw new Exception("User id not found");
+		if (user == null) {
+			throw new UserException("User id not found");
 		}
 		return user.get();
 	}
@@ -48,15 +48,17 @@ public class UserServiceImplementation implements UserService {
 	}
 
 	@Override
-	public User findUserByEmail(Integer userId) throws Exception {
+	public User findUserByEmail(Integer userId) throws UserException
+
+	{
 		Optional<User> user = userRepository.findById(userId);
 		if (user == null)
-			throw new Exception("user id not found");
+			throw new UserException("user id not found");
 
 		User newUser = user.get();
 
 		if (newUser.getEmail() == null) {
-			throw new Exception("email id not found");
+			throw new UserException("email id not found");
 		}
 
 		return user.get();
@@ -64,25 +66,25 @@ public class UserServiceImplementation implements UserService {
 	}
 
 	@Override
-	public User followUser(Integer reqUserId, Integer userId2) throws Exception {
+	public User followUser(Integer reqUserId, Integer userId2) throws UserException {
 		User reqUser = findUserById(reqUserId);
 		User user2 = findUserById(userId2);
-		
+
 		user2.getFollowers().add(reqUser.getId());
 		reqUser.getFollowings().add(user2.getId());
-		
+
 		userRepository.save(reqUser);
 		userRepository.save(user2);
-		
+
 		return reqUser;
 	}
 
 	@Override
-	public User updateUser(User user, Integer userId) throws Exception {
+	public User updateUser(User user, Integer userId) throws UserException {
 		Optional<User> user1 = userRepository.findById(userId);
 
 		if (user1.isEmpty()) {
-			throw new Exception("User is Empty");
+			throw new UserException("User is Empty");
 		}
 
 		User oldUser = user1.get();
@@ -96,10 +98,9 @@ public class UserServiceImplementation implements UserService {
 		if (user.getEmail() != null) {
 			oldUser.setEmail(user.getEmail());
 		}
-		
-		if(user.getGender() != null)
-		{
-			oldUser.setGender(user.getGender());  
+
+		if (user.getGender() != null) {
+			oldUser.setGender(user.getGender());
 		}
 		User updatedUser = userRepository.save(oldUser);
 
@@ -120,7 +121,7 @@ public class UserServiceImplementation implements UserService {
 
 	@Override
 	public User findUserByJwt(String jwt) {
-		
+
 		String email = JwtProvider.getEmailFromJWTToken(jwt);
 		User user = userRepository.findByEmail(email);
 		return user;

@@ -1,6 +1,8 @@
 package com.social.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,7 @@ import com.social.service.CommentService;
 import com.social.service.UserService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class CommentController {
 	
@@ -48,6 +51,14 @@ public class CommentController {
 	{
 		Comment comm = commentService.getComment(commentId);
 		return comm;
+	}
+	
+	@DeleteMapping("delete/post/{postId}/comment/{commentId}")
+	public Comment deleteCommentHandler(@PathVariable()Integer postId,@PathVariable() Integer commentId) throws Exception {
+
+		Comment comment = commentService.deleteComment(postId,commentId);
+		return comment;
+		
 	}
 
 }
